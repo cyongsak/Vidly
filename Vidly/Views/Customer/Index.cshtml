@@ -1,0 +1,13 @@
+﻿@model List<Vidly.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index of Customer page</h2>
+<h3>Here will populate list of Customers</h3>
+@foreach (var customer in Model)
+{
+    @customer.Name <br/>
+}
