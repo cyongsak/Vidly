@@ -9,10 +9,22 @@ namespace Vidly.Controllers
 {
     public class CustomerController : Controller
     {
+        private ApplicationDbContext _context;
+
+        public CustomerController()     //add new constructor to create _context object on class is created
+        {
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)     //dispose _context object on the class dispose
+        {
+            _context.Dispose();
+        }
+
         // GET: Customer
         public ActionResult Index()
         {
-            var customers = GetCustomers();
+            var customers = _context.Customers.ToList();
 
             var cust = new Customer() {Name = "Customer Name 1"};
             //ViewData.Model = customers;
@@ -22,19 +34,11 @@ namespace Vidly.Controllers
 
         public ActionResult Details(int? id)
         {
-            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (customer == null)
                 return HttpNotFound();
             return View(customer);
         }
 
-        public IEnumerable<Customer> GetCustomers()
-        {
-            return new List<Customer>()
-            {
-                new Customer() {Id=1,Name="John Watson" },
-                new Customer() {Id=2,Name="Sherlock Holm" }
-            };
-        }
     }
 }
