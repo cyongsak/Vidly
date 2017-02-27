@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,7 +25,7 @@ namespace Vidly.Controllers
         // GET: Customer
         public ActionResult Index()
         {
-            var customers = _context.Customers.ToList();
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList(); //Eager Loading
 
             var cust = new Customer() {Name = "Customer Name 1"};
             //ViewData.Model = customers;
