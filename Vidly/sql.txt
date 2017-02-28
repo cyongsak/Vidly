@@ -1,0 +1,5 @@
+insert movies
+insert into movies (name,genreid,dateadded,releasedate,NumberInStock) values ('Shrek',3,'2017/2/28','2010/1/1',5)
+
+insert customers
+insert into customers (name,issubscribedtonewsletter,membershiptypeid,birthdate) values ('John Watson',0,1,'1975/3/31')
