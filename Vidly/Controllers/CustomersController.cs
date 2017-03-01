@@ -79,7 +79,7 @@ namespace Vidly.Controllers
                 customerInDb.IsSubscribedToNewsLetter = customer.IsSubscribedToNewsLetter;
             }
             _context.SaveChanges();
-            return RedirectToAction("Index", "Customer");
+            return RedirectToAction("Index", "Customers");
            
         }
 

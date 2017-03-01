@@ -54,7 +54,7 @@ namespace Vidly.Controllers
 
         public ActionResult Edit(int id)
         {
-            var movie = _context.Movies.Single(c => c.Id == id);
+            var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
             if (movie == null)
                 return HttpNotFound();
 
@@ -86,7 +86,7 @@ namespace Vidly.Controllers
             else
             {
                 //edit current movie
-                var movieInDb = _context.Movies.Single(c => c.Id == movie.Id);
+                var movieInDb = _context.Movies.SingleOrDefault(c => c.Id == movie.Id);
                 movieInDb.Name = movie.Name;
                 movieInDb.GenreId = movie.GenreId;
                 movieInDb.NumberInStock = movie.NumberInStock;
@@ -94,7 +94,7 @@ namespace Vidly.Controllers
             }
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Movie");
+            return RedirectToAction("Index", "Movies");
         }
 
     }
