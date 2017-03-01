@@ -13,7 +13,8 @@ namespace Vidly.Models
             // membership must be 18 years old
             var customer = (Customer) validationContext.ObjectInstance;
 
-            if (customer.MembershipTypeId == 0 || customer.MembershipTypeId == 1)     //free membership for all
+            if (customer.MembershipTypeId == MembershipType.Unknow || 
+                customer.MembershipTypeId == MembershipType.PayAsYouGo)     //free membership for all
                 return ValidationResult.Success;
             
             if(customer.Birthdate == null)
