@@ -36,4 +36,9 @@
     @Html.HiddenFor(m => m.Customer.Id)
     <button type="submit" class="btn btn-success">Save</button>
 }
+@*add client validation*@
+@section scripts
+{
+  @Scripts.Render("~/bundles/jqueryval")  
+}
 
