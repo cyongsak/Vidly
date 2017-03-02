@@ -11,7 +11,7 @@
 @Html.ActionLink("New Customer", "New", null, new { @class = "btn btn-default", @type = "button" }) &nbsp;
 
 <a class="btn btn-primary" type="button" href="@Url.Action("New","Customer")">New Customer</a>
-
+<p></p>
 @if (!Model.Any())
 {
     <p>There is no customers in the list</p>
@@ -44,6 +44,8 @@ else
 @section scripts
 {
     <script>
+        $("#customers").dataTable();
+
         $(document).ready(function() {
             $("#customers").on("click", ".js-delete",
                 function() {
