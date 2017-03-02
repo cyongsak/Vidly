@@ -9,7 +9,7 @@
 <p>There are 2 buttons from difference code.</p>
 @Html.ActionLink("New Customer", "New", null, new { @class = "btn btn-default", @type = "button" }) &nbsp;
 
-<a class="btn btn-primary" type="button" href="@Url.Action("New","Customers")">New Customer</a>
+@*<a class="btn btn-primary" type="button" href="@Url.Action("New","Customers")">New Customer</a>*@
 <p></p>
 <table id="customers" class="table table-bordered table-hover">
     <thead>
@@ -25,67 +25,71 @@
 @section scripts
 {
     <script>
-        $("#customers").dataTable({
-            ajax:{
-                url: "/api/customers",
-                dataSrc: ""
-            },
-            columns: [
-                {
-                    data: "name",
-                    render: function(data,type,customer) {
-                        return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
-                    }
-                },
-                {
-                    data: "membershipType.name"
-                },
-                {
-                    data: "id",
-                    render: function(data) {
-                        return "<button data-customer-id='" + data + "' class='btn-link js-delete'>Delete</button>";
-                    }
-                }
-            ]
-        });
-
         $(document).ready(function() {
-            $("#customers").on("click", ".js-delete",
-                function() {
-                    var button = $(this);
-
-                    //use bootbox confirm
-                    bootbox.confirm({
-                        message: "Are you sure you want to delete this customer?",
-                        buttons:
-                        {
-                            confirm:
-                            {
-                                label: "Yes I am sure.",
-                                className: "btn-danger"
-                            },
-                            cancel:
-                            {
-                                label: "No",
-                                className: "btn-default"
-                            }
-                        },
-                        callback: function (result) {
-                            if (result) {
-                                $.ajax({
-                                    url: "/api/customers/" + button.attr("data-customer-id"),
-                                    method: "DELETE",
-                                    success: function () {
-                                        console.log("Deleted success");
-                                        button.parents("tr").remove();
-                                    }
-                                });
-                            }
-
+            var table = $("#customers").DataTable({
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, customer) {
+                            return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
                         }
-                    });
+                    },
+                    {
+                        data: "membershipType.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button data-customer-id='" + data + "' class='btn-link js-delete'>Delete</button>";
+                        }
+                    }
+                ]
+            });
 
-                });
+            $(document).ready(function () {
+                $("#customers").on("click", ".js-delete",
+                    function () {
+                        var button = $(this);
+
+                        //use bootbox confirm
+                        bootbox.confirm({
+                            message: "Are you sure you want to delete this customer?",
+                            buttons:
+                            {
+                                confirm:
+                                {
+                                    label: "Yes I am sure.",
+                                    className: "btn-danger"
+                                },
+                                cancel:
+                                {
+                                    label: "No",
+                                    className: "btn-default"
+                                }
+                            },
+                            callback: function (result) {
+                                if (result) {
+                                    $.ajax({
+                                        url: "/api/customers/" + button.attr("data-customer-id"),
+                                        method: "DELETE",
+                                        success: function () {
+                                            //console.log("Deleted success");
+                                            table.row(button.parents("tr")).remove().draw();
+                                            //button.parents("tr").remove();
+                                        }
+                                    });
+                                }
+
+                            }
+                        });
+
+                    });
+            });
         });
+        
     </script>
 }
